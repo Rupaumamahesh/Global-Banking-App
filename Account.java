@@ -7,15 +7,15 @@ public class Account{
     private String status;
 
     //constructor - version 1
-    public Account(int accountNumber, String name, int age, double balance, String accountType, String status) {
-        this. accountNumber = accountNumber;
-        this.name = name;
-        this.age = age;
-        this.balance = balance;
-        this.accountType = accountType;
-        this.status = status;
+    // public Account(int accountNumber, String name, int age, double balance, String accountType, String status) {
+    //     this. accountNumber = accountNumber;
+    //     this.name = name;
+    //     this.age = age;
+    //     this.balance = balance;
+    //     this.accountType = accountType;
+    //     this.status = status;
 
-    } 
+    // } 
     public Account(int accountNumber, String name, int age, double balance, String accountType) {
         this. accountNumber = accountNumber;
         this.name = name;
@@ -27,20 +27,22 @@ public class Account{
     public boolean deposit(double amount) {
         if(this.status.equals("Active") && amount > 0) {
             balance += amount;
+            //System.out.println(balance);
             return true;
         }
         else {
-            System.out.println("Deposit is failed")
+            //System.out.println("Deposit is failed");
             return false;
         }
     }
     public boolean withdraw (double amount) {
-        if(this.status.equals("Active") && amount > 0) {
+        if(this.status.equals("Active") && balance > amount) {
             balance -= amount;
+            //System.out.println(balance);
             return true; 
         }
         else {
-            System.out.println("Invalid ammount.");
+            //System.out.println("Invalid ammount.");
             return false;
         }
     }
