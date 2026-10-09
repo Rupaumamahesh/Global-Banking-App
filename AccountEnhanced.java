@@ -5,6 +5,7 @@ public class AccountEnhanced{
     private double balance;
     private String accountType;
     private String status;
+    private Integer pin;
 
     //constructor - version 1
     // public Account(int accountNumber, String name, int age, double balance, String accountType, String status) {
@@ -32,6 +33,7 @@ public class AccountEnhanced{
         else if(accountType.equals("Current") && balance >= 1000.0) this.balance = balance;
         else if(accountType.equals("Current") && balance < 1000.0) this. balance = 1000.0;
         this.status = "Active";
+        this.pin = null;
 
     } 
     public boolean deposit(double amount) {
@@ -43,27 +45,31 @@ public class AccountEnhanced{
             return false;
         }
     }
-    public boolean withdraw (double amount) {
+    public boolean withdraw (double amount, int pin) {
         double minbalance = 0.0;
-        if(accountType.equals("Savings")) {
-            minbalance = 500.0;
-        }
-        else {
-            minbalance = 1000.0;
-        }
-        if(this.status.equals("Active") && balance > amount) {
-            double temp = balance;
-            temp -= amount;
-            if(temp >= minbalance) {
-                balance-= amount;
-                return true;
+        //hasPin & verifyPin 
+        if(this.hasPin(pin) == true && this.verifyPin(pin) == true) {
+            if(accountType.equals("Savings")) {
+                minbalance = 500.0;
             }
-            else return false;
+            else {
+                minbalance = 1000.0;
+            }
+            if(this.status.equals("Active") && balance > amount) {
+                double temp = balance;
+                temp -= amount;
+                if(temp >= minbalance) {
+                    balance-= amount;
+                    return true;
+                }
+                else return false;
+            }
+            else {
+                //System.out.println("Invalid ammount.");
+                return false;
+            }
         }
-        else {
-            //System.out.println("Invalid ammount.");
-            return false;
-        }
+        else return false;
     }
     //getter methods 
     public int getAccountNumber() {
@@ -105,5 +111,25 @@ public class AccountEnhanced{
         }
         return false;
     }
+    public boolean setPin (int pin) {
+        if(pin >= 1000 && pin <= 9999) {
+            this.pin = pin;
+            return true;
+        }
+        else return false;
+    }
+    public boolean verifyPin(int pin) {
+        if(this.pin != null && this.pin == pin) return true;
+        else return false;
+    }
+    public boolean hasPin(int pin) {
+        if(this.pin != null) return true;
+        else return false;
+    }
 }
 
+//Add pin field (Integer, 4-digit, can be null)
+ //Add setPin(int pin) method: Returns boolean (true if valid)
+//Add verifyPin(int pin) method: Returns boolean
+//Add hasPin() method: Returns boolean
+//Modify withdraw() to accept PIN parameter and return boolean
